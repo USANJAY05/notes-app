@@ -39,7 +39,7 @@ jobs:
       # Sync build to S3 bucket with Cache-Control headers
       - name: Deploy to S3
         run: |
-          aws s3 sync build/ s3://ai-notes-app --delete --cache-control "public, max-age=31536000"
+          aws s3 sync dist/ s3://ai-notes-app --delete --cache-control "public, max-age=31536000"
 
       # Invalidate CloudFront cache
       - name: Invalidate CloudFront cache
