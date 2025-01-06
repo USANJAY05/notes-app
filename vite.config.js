@@ -12,7 +12,7 @@ export default defineConfig({
         name: 'Notes App',
         short_name: 'Notes',
         description: 'A simple notes app',
-        theme_color: '#ffffff',
+        theme_color: '#0000',
         icons: [
           {
             src: '/favicon.png',
