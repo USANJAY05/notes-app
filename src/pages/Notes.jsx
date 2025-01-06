@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import fetchAIResponse from "../utils/fetchAiResponse";
+import fetchAIResponse from "../utils/fetchAiResponse.js";
 import { marked } from "marked"; // This is to convert Markdown to HTML
 
 const Notes = () => {
