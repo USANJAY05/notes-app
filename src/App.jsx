@@ -4,7 +4,6 @@ import NavBar from './components/navBar/NavBar'
 import SideBar from './components/sideBar/SideBar'
 import Notes from './pages/Notes'
 import Missing from './pages/Missing'
-import Main from './pages/Main'
 
 const App = () => {
   return (
@@ -15,7 +14,7 @@ const App = () => {
           <div className='h-full flex overflow-auto'>
             <SideBar />
             <Routes>
-              <Route path='/' element={<Main />} />
+              <Route path='/' element={<Notes />} />
               <Route path='/notes/:id' element={<Notes />} />
               <Route path='*' element={<Missing />} />
             </Routes>
