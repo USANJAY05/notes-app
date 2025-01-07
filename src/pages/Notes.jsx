@@ -1,62 +1,105 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import fetchAIResponse from "../utils/fetchAiResponse.js";
-import { marked } from "marked"; // This is to convert Markdown to HTML
+import { marked } from "marked";
+import { useDispatch, useSelector } from "react-redux";
+import { addItems, updateNoteContent, deleteItem } from "../redux/slice/items-slice.js";
+import { setNote } from "../redux/slice/note-slice.js";
+import { useNavigate, useParams } from "react-router";
+import { debounce } from "lodash";
 
 const Notes = () => {
-  const [note, setNote] = useState("");
+  const note = useSelector((state) => state.note.notes);
+  const notes = useSelector((state) => state.items.notes);
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const navigate = useNavigate();
   const quillRef = useRef(null);
 
-  // Handle changes in the editor
-  const handleEditorChange = (value) => {
-    setNote(value);
-  };
+  // Debounced editor change handler
+const handleEditorChange = useMemo(() => {
+  const debouncedChange = debounce((value) => {
+    dispatch(setNote(value));
+  }, 300);
 
-  // Function to rephrase selected text with custom user input
-  const handleRephrase = async () => {
-    const editor = quillRef.current.getEditor();
-    const range = editor.getSelection(); // Get the selected range
+  return debouncedChange;
+}, [dispatch]);
 
-    if (range && range.length > 0) {
-      const selectedText = editor.getText(range.index, range.length); // Get the selected text
-
-      // Prompt the user for custom rephrase instructions
-      const customText = prompt("Enter custom rephrase instructions:");
-
-      if (customText) {
-        try {
-          const response = await fetchAIResponse(
-            `${customText}\n\n${selectedText}`
-          );
-
-          console.log("AI Response:", response); // Log the response to see what's returned
-          
-          // If the response contains markdown, convert it to HTML
-          if (response && typeof response === "string") {
-            const htmlContent = marked(response); // Convert Markdown to HTML
-            console.log(htmlContent);
-            
-            // Use dangerouslyPasteHTML to insert the HTML content
-            editor.deleteText(range.index, range.length); // Remove the old text
-            editor.clipboard.dangerouslyPasteHTML(range.index, htmlContent); // Insert HTML content
-          } else {
-            alert("Invalid response format!");
-          }
-        } catch (error) {
-          console.error("Error rephrasing text:", error);
-          alert("Failed to rephrase text.");
-        }
+  // Fetch the existing note content
+  useEffect(() => {
+    if (id) {
+      const existingNote = notes.find((note) => note.id === parseInt(id, 10));
+      if (existingNote) {
+        dispatch(setNote(existingNote.content));
       } else {
-        alert("No custom text entered!");
+        dispatch(setNote(""));
       }
+    }
+  }, [id, notes, dispatch]);
+
+  // Save the note content
+  const saveNote = () => {
+    const cleanedNote = note.replace(/<p>\s*<br\s*\/?>\s*<\/p>/g, "").trim();
+
+    if (!cleanedNote) {
+      if (id) {
+        dispatch(deleteItem({ id: parseInt(id, 10) }));
+        navigate("/");
+      }
+      return;
+    }
+
+    if (id) {
+      dispatch(updateNoteContent({ id: parseInt(id, 10), content: note }));
     } else {
-      alert("No text selected to rephrase!");
+      const newNote = {
+        id: notes.length + 1,
+        content: note,
+        checked: false,
+      };
+      dispatch(addItems(newNote));
+      navigate(`/notes/${newNote.id}`);
     }
   };
 
-  // Custom toolbar configuration
-  const modules = {
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      saveNote();
+    }, 0);
+
+    return () => clearTimeout(timeout);
+  }, [note]);
+
+  // Rephrase selected text
+  const handleRephrase = async () => {
+    const editor = quillRef.current.getEditor();
+    const range = editor.getSelection();
+    const selectedText = editor.getText(range.index, range.length);
+    const customText = prompt("Enter custom rephrase instructions:");
+
+    if (customText) {
+      try {
+        const response = await fetchAIResponse(`${customText}\n\n${selectedText}`);
+
+        if (response && typeof response === "string") {
+          const htmlContent = marked(response);
+          editor.deleteText(range.index, range.length);
+          editor.clipboard.dangerouslyPasteHTML(range.index, htmlContent);
+        } else {
+          alert("Invalid response format!");
+        }
+      } catch (error) {
+        console.error("Error rephrasing text:", error);
+        alert("Failed to rephrase text.");
+      }
+    } else {
+      alert("No custom text entered!");
+    }
+  };
+
+  // Memoized modules for React Quill
+  const modules = useMemo(() => ({
     toolbar: {
       container: [
         [{ header: "1" }, { header: "2" }, { font: [] }],
@@ -67,25 +110,20 @@ const Notes = () => {
         ["link", "image"],
         [{ color: [] }, { background: [] }],
         ["blockquote", "code-block"],
-        ["clean"]
+        ["clean"],
       ],
     },
-  };
+  }), []);
 
   return (
     <div className="w-full h-full dark:bg-black dark:text-white">
-      <div id="custom-toolbar" className="">
+      <div className="flex justify-between items-center mb-4 fixed right-0">
         <button
           onClick={handleRephrase}
-          className="bg-green-500 text-white px-3 py-1 rounded absolute right-0"
+          className="bg-green-500 text-white px-3 py-1 rounded"
         >
           Rephrase
         </button>
-        {/* Rephrase Button
-        <BsStars 
-          className="w-8 h-8 absolute right-0"
-          onClick={handleRephrase}
-        /> */}
       </div>
 
       <ReactQuill
@@ -101,3 +139,4 @@ const Notes = () => {
 };
 
 export default Notes;
+
