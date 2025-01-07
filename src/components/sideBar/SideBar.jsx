@@ -14,7 +14,7 @@ const SideBar = () => {
   const toggle = useSelector((state) => state.sideToggle)
   console.log(toggle)
   return (
-    <div className={`w-64 h-full border-r dark:border-r-gray-700 z-50 dark:bg-black border-b-gray-50 p-2 box-border overflow-auto ${!toggle && 'hidden'} ${mobileSize && 'fixed w-full'}`}>
+    <div className={`w-64 h-full border-r dark:border-r-gray-700 z-50 dark:bg-black border-b-gray-50 p-2 box-border overflow-auto ${!toggle && 'hidden'} ${mobileSize && 'fixed w-full border-none'}`}>
       {notes.length ?(
       notes.map(item =>(
         <div 
