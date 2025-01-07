@@ -8,6 +8,7 @@ import { addItems, updateNoteContent, deleteItem } from "../redux/slice/items-sl
 import { setNote } from "../redux/slice/note-slice.js";
 import { useNavigate, useParams } from "react-router";
 import { debounce } from "lodash";
+import { SiGooglegemini } from "react-icons/si";
 
 const Notes = () => {
   const note = useSelector((state) => state.note.notes);
@@ -120,9 +121,9 @@ const handleEditorChange = useMemo(() => {
       <div className="flex justify-between items-center mb-4 fixed right-0">
         <button
           onClick={handleRephrase}
-          className="bg-green-500 text-white px-3 py-1 rounded"
+          className=" dark:text-white text-xl w-10 h-10 rounded hover:text-yellow-300"
         >
-          Rephrase
+          <SiGooglegemini />
         </button>
       </div>
 
