@@ -138,7 +138,7 @@ const Notes = () => {
         onChange={handleEditorChange}
         theme="snow"
         modules={modules}
-        className="h-[calc(100%-50px)] dark:text-white"
+        className="h-full dark:text-white overflow-auto"
       />
     </div>
   );
