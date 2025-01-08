@@ -17,7 +17,7 @@ const SideBar = () => {
     <div
       className={`w-64 h-full border-r dark:border-r-gray-700 z-50 bg-white dark:bg-black border-b-gray-50 box-border overflow-auto ${
         !toggle && 'hidden'
-      } ${mobileSize && 'fixed w-full border-none'}`}
+      } ${mobileSize && 'fixed w-full border-none pb-20'}`}
     >
       {notes.length ? (
         notes.map((item) => (
