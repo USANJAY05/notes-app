@@ -9,6 +9,7 @@ import { setNote } from "../redux/slice/note-slice.js";
 import { useNavigate, useParams } from "react-router";
 import { debounce } from "lodash";
 import { SiGooglegemini } from "react-icons/si";
+import { setSideBarId } from "../redux/slice/sideBarActive-slice.js";
 
 const Notes = () => {
   const note = useSelector((state) => state.note.notes);
@@ -37,6 +38,7 @@ const handleEditorChange = useMemo(() => {
         dispatch(setNote(""));
       }
     }
+    dispatch(setSideBarId(id))
   }, [id, notes, dispatch]);
 
   // Save the note content

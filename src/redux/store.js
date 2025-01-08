@@ -3,6 +3,7 @@ import themeReducer from './slice/theme-slice';
 import itemsReducer from './slice/items-slice';
 import noteReducer from './slice/note-slice';
 import sideToggleReducer from './slice/sideToggle-slice';
+import sideBarActiveReducer from './slice/sideBarActive-slice'
 
 // redux-persist imports
 import { persistStore, persistReducer } from 'redux-persist';
@@ -23,6 +24,7 @@ const store = configureStore({
     items: persistedItemsReducer, // Persisted items reducer
     note: noteReducer,       // No persistence for note
     sideToggle: sideToggleReducer, // No persistence for sideToggle
+    sideBarActive: sideBarActiveReducer,
   },
 });
 
