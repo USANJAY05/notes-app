@@ -19,6 +19,9 @@ const NavBar = () => {
         <li onClick={() => {
           dispatch(toggleTrue());
           navigate('/');
+          setTimeout(() => {
+            dispatch(setNote('')); // Dispatching the setNote action properly
+          }, 10);
         }} className='flex items-center justify-center rounded-full hover:text-blue-500 cursor-pointer'>
           <div className='w-6 flex justify-center items-center'>
             <SlArrowLeft />
