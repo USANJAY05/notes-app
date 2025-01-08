@@ -14,13 +14,17 @@ const NavBar = () => {
   return (
     <nav className='p-2 border-b dark:border-b-gray-700 bg-white dark:bg-black dark:text-white'>
       <ul className='flex justify-between'>
-        <li className='flex gap-1 items-center hover:bg-gray-200 dark:hover:bg-gray-700 w-10 h-10 justify-center rounded-full'><SlArrowLeft onClick={() => (dispatch(toggleTrue()),navigate('/'))} /></li>
-        <li className='text-xl font-bold'>Notes App</li>
+        <li onClick={() => (dispatch(toggleTrue()),navigate('/'))} className='flex items-center  justify-center rounded-full hover:text-blue-500 cursor-pointer'>
+          <div className='w-6 flex justify-center items-center'>
+            <SlArrowLeft />
+          </div>
+          <h1>Notes</h1>
+          </li>
         <li className='flex gap-2 items-center'>
           <div className='p-2 hover:dark:bg-gray-700 hover:bg-gray-200 rounded-full'>
-            <PiNotePencilThin onClick={() => (mobileSize&&dispatch(toggleFalse()),navigate('/'))} className='w-6 h-6' />
+            <PiNotePencilThin onClick={() => (mobileSize&&dispatch(toggleFalse()),navigate('/'))} className='w-6 h-6 hover:cursor-pointer' />
           </div>
-          <img width={30} height={30} src={profile} alt="" />
+          <img className='cursor-pointer' width={30} height={30} src={profile} alt="" />
         </li>
       </ul>
     </nav>
