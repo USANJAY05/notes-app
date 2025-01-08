@@ -7,7 +7,7 @@ import { toggleSideBar } from '../../redux/slice/sideToggle-slice';
 const SideBar = () => {
   const mobileSize = useMobileSize();
   const id = useSelector((state) => state.sideBarActive.id)
-  console.log(id)
+  // console.log(id)
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.items.notes);
   const navigate = useNavigate();

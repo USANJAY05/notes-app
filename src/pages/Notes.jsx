@@ -10,6 +10,8 @@ import { useNavigate, useParams } from "react-router";
 import { debounce } from "lodash";
 import { SiGooglegemini } from "react-icons/si";
 import { setSideBarId } from "../redux/slice/sideBarActive-slice.js";
+import { v4 as uuidv4 } from 'uuid'; // Import uuid function
+
 
 const Notes = () => {
   const note = useSelector((state) => state.note.notes);
@@ -20,18 +22,18 @@ const Notes = () => {
   const quillRef = useRef(null);
 
   // Debounced editor change handler
-const handleEditorChange = useMemo(() => {
-  const debouncedChange = debounce((value) => {
-    dispatch(setNote(value));
-  }, 300);
+  const handleEditorChange = useMemo(() => {
+    const debouncedChange = debounce((value) => {
+      dispatch(setNote(value));
+    }, 300);
 
-  return debouncedChange;
-}, [dispatch]);
+    return debouncedChange;
+  }, [dispatch]);
 
   // Fetch the existing note content
   useEffect(() => {
     if (id) {
-      const existingNote = notes.find((note) => note.id === parseInt(id, 10));
+      const existingNote = notes.find((note) => note.id === id); // Use id directly as string
       if (existingNote) {
         dispatch(setNote(existingNote.content));
       } else {
@@ -46,18 +48,19 @@ const handleEditorChange = useMemo(() => {
     const cleanedNote = note.replace(/<p>\s*<br\s*\/?>\s*<\/p>/g, "").trim();
 
     if (!cleanedNote) {
-      if (id) {
-        dispatch(deleteItem({ id: parseInt(id, 10) }));
+      if (id && window.confirm("Are you sure you want to delete this note?")) {
+        dispatch(deleteItem({ id: id })); // Use id as a string
         navigate("/");
       }
       return;
     }
 
     if (id) {
-      dispatch(updateNoteContent({ id: parseInt(id, 10), content: note }));
+      dispatch(updateNoteContent({ id: id, content: note })); // Use id as a string
     } else {
+      
       const newNote = {
-        id: notes.length + 1,
+        id: `${uuidv4()}-${Date.now()}`,  // Combine UUID with current timestamp
         content: note,
         checked: false,
       };
@@ -142,4 +145,3 @@ const handleEditorChange = useMemo(() => {
 };
 
 export default Notes;
-
