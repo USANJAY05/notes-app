@@ -11,7 +11,25 @@ import { debounce } from "lodash";
 import { SiGooglegemini } from "react-icons/si";
 import { setSideBarId } from "../redux/slice/sideBarActive-slice.js";
 import { v4 as uuidv4 } from 'uuid'; // Import uuid function
+import Quill from 'quill';
 
+// Register custom video blot to handle video embeds
+const BlockEmbed = Quill.import('blots/block/embed');
+class VideoBlot extends BlockEmbed {
+  static create(url) {
+    const node = super.create();
+    node.setAttribute('src', url);
+    node.setAttribute('frameborder', '0');
+    node.setAttribute('allowfullscreen', true);
+    node.setAttribute('width', '560');
+    node.setAttribute('height', '315');
+    return node;
+  }
+  static value(node) {
+    return node.getAttribute('src');
+  }
+}
+Quill.register('formats/video', VideoBlot);
 
 const Notes = () => {
   const note = useSelector((state) => state.note.notes);
@@ -40,7 +58,7 @@ const Notes = () => {
         dispatch(setNote(""));
       }
     }
-    dispatch(setSideBarId(id))
+    dispatch(setSideBarId(id));
   }, [id, notes, dispatch]);
 
   // Save the note content
@@ -58,7 +76,6 @@ const Notes = () => {
     if (id) {
       dispatch(updateNoteContent({ id: id, content: note })); // Use id as a string
     } else {
-      
       const newNote = {
         id: `${uuidv4()}-${Date.now()}`,  // Combine UUID with current timestamp
         content: note,
@@ -104,6 +121,36 @@ const Notes = () => {
     }
   };
 
+  // Custom handler to embed YouTube video
+  const handleEmbedYouTube = () => {
+    const editor = quillRef.current.getEditor();
+    const range = editor.getSelection();
+    const url = prompt("Enter YouTube URL:");
+
+    if (url && isValidYouTubeUrl(url)) {
+      const embedUrl = getYouTubeEmbedUrl(url);
+      editor.insertEmbed(range.index, "video", embedUrl);
+    } else {
+      alert("Invalid YouTube URL!");
+    }
+  };
+
+  // Validate YouTube URL with improved regex to handle both standard and shortened URLs
+  const isValidYouTubeUrl = (url) => {
+    const regex = /^(https?\:\/\/)?(www\.youtube\.com|youtube\.com)\/(?:[^\/]+\/){2}([^\/\?]+)(?:\S*)$|^(https?\:\/\/)?(www\.youtu\.be|youtu\.be)\/([^\/\?]+)(?:\S*)$/;
+    return regex.test(url);
+  };
+
+  // Extract YouTube embed URL
+  const getYouTubeEmbedUrl = (url) => {
+    const videoId = url.match(/(?:youtube\.com\/(?:[^\/]+\/){2}([^\/\?]+))|(?:youtu\.be\/([^\/?]+))/i);
+    if (videoId) {
+      const id = videoId[1] || videoId[2];
+      return `https://www.youtube.com/embed/${id}`;
+    }
+    return null;
+  };
+
   // Memoized modules for React Quill
   const modules = useMemo(() => ({
     toolbar: {
@@ -117,7 +164,11 @@ const Notes = () => {
         [{ color: [] }, { background: [] }],
         ["blockquote", "code-block"],
         ["clean"],
+        [{ 'video': 'embed' }],  // Custom toolbar button for video
       ],
+      handlers: {
+        video: handleEmbedYouTube, // Attach custom handler for YouTube video
+      },
     },
   }), []);
 
