@@ -123,7 +123,7 @@ const Notes = () => {
 
   return (
     <div className="w-full h-full dark:bg-black dark:text-white">
-      <div className="flex justify-between items-center mb-4 fixed right-0">
+      <div className="flex z-10 justify-between items-center mb-4 fixed right-0">
         <button
           onClick={handleRephrase}
           className=" dark:text-white text-xl w-10 h-10 rounded hover:text-yellow-300"
