@@ -14,7 +14,7 @@ const NavBar = () => {
   const mobileSize = useMobileSize();
 
   return (
-    <nav className='p-2 border-b dark:border-b-gray-700 bg-white dark:bg-black dark:text-white'>
+    <nav className='p-2 border-b dark:border-b-dark_gray bg-light dark:bg-dark dark:text-light'>
       <ul className='flex justify-between'>
         <li onClick={() => {
           dispatch(toggleTrue());
@@ -22,14 +22,14 @@ const NavBar = () => {
           setTimeout(() => {
             dispatch(setNote('')); // Dispatching the setNote action properly
           }, 10);
-        }} className='flex items-center justify-center rounded-full hover:text-blue-500 cursor-pointer'>
+        }} className='flex items-center justify-center rounded-full hover:text-blue500 cursor-pointer'>
           <div className='w-6 flex justify-center items-center'>
             <SlArrowLeft />
           </div>
           <h1>Notes</h1>
         </li>
         <li className='flex gap-2 items-center'>
-          <div className='p-2 hover:dark:bg-gray-700 hover:bg-gray-200 rounded-full'>
+          <div className='p-2 hover:dark:bg-dark_gray hover:bg-light_gray200 rounded-full'>
             <PiNotePencilThin 
               onClick={() => {
                 if (mobileSize) dispatch(toggleFalse());

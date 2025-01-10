@@ -15,7 +15,7 @@ const SideBar = () => {
 
   return (
     <div
-      className={`w-64 h-full border-r dark:border-r-gray-700 z-50 bg-white dark:bg-black border-b-gray-50 box-border overflow-auto ${
+      className={`w-64 h-full border-r dark:border-r-dark_gray z-50 bg-light dark:bg-dark border-b-light_gray box-border overflow-auto ${
         !toggle && 'hidden'
       } ${mobileSize && 'fixed w-full border-none pb-20'}`}
     >
@@ -27,16 +27,16 @@ const SideBar = () => {
               navigate(`/notes/${item.id}`);
               mobileSize && dispatch(toggleSideBar());
             }}
-            className={`w-full dark:text-white bg-gray-200 hover:bg-gray-300 dark:bg-black dark:hover:bg-gray-800 hover:cursor-pointer ${
-              item.id == id ? 'dark:bg-gray-800 bg-gray-200' : ''
+            className={`w-full dark:text-light bg-light_gray200 hover:bg-light_gray300 dark:bg-dark dark:hover:bg-dark_gray800 hover:cursor-pointer ${
+              item.id == id ? 'dark:bg-dark_gray800 bg-light_gray200' : ''
             }`}
           >
             <h2 className="p-2 py-3">{item.content.slice(0, 20) + '...'}</h2>
-            <hr className="border-gray-200 dark:border-gray-700" />
+            <hr className="border-light_gray200 dark:border-dark_gray" />
           </div>
         ))
       ) : (
-        <h1 className="dark:text-white text-center">Empty list</h1>
+        <h1 className="dark:text-light text-center">Empty list</h1>
       )}
     </div>
   );

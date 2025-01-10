@@ -173,11 +173,11 @@ const Notes = () => {
   }), []);
 
   return (
-    <div className="w-full h-full dark:bg-black dark:text-white">
+    <div className="w-full h-full dark:bg-dark dark:text-light">
       <div className="flex z-10 justify-between items-center mb-4 fixed right-0">
         <button
           onClick={handleRephrase}
-          className=" dark:text-white text-xl w-10 h-10 rounded hover:text-yellow-300"
+          className=" dark:text-light text-xl w-10 h-10 rounded hover:text-light_yellow"
         >
           <SiGooglegemini />
         </button>
@@ -189,7 +189,7 @@ const Notes = () => {
         onChange={handleEditorChange}
         theme="snow"
         modules={modules}
-        className="h-full dark:text-white overflow-auto"
+        className="h-full dark:text-light overflow-auto"
       />
     </div>
   );
