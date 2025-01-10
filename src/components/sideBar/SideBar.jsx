@@ -28,11 +28,11 @@ const SideBar = () => {
               mobileSize && dispatch(toggleSideBar());
             }}
             className={`w-full dark:text-light bg-light_gray200 hover:bg-light_gray300 dark:bg-dark dark:hover:bg-dark_gray800 hover:cursor-pointer ${
-              item.id == id ? 'dark:bg-dark_gray800 bg-light_gray200' : ''
+              item.id == id ? 'dark:bg-dark_gray800 bg-light_gray300' : ''
             }`}
           >
             <h2 className="p-2 py-3">{item.content.slice(0, 20) + '...'}</h2>
-            <hr className="border-light_gray200 dark:border-dark_gray" />
+            <hr className="border-light_gray300 dark:border-dark_gray" />
           </div>
         ))
       ) : (

@@ -11,7 +11,7 @@ export default {
         dark:'black',
         dark_gray:'#374151',
         light_gray:'#f9fafb',
-        light_gray200:"#e5e7eb",
+        light_gray200:"#f9fafb",
         dark_gray800:"#1f2937",
         light_gray300:"#d1d5db",
         blue500:"#3b82f6",
