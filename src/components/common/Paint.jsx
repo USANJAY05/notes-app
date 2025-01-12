@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Canvas, Editor, useReactPaint } from '@yorab/react-paint';
+// import { Canvas, Editor, useReactPaint } from '@yorab/react-paint';
 
 const Paint = () => {
   // States for brush size, color, and undo/redo stack

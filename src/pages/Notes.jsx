@@ -38,6 +38,7 @@ const Notes = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const quillRef = useRef(null);
+  const opacity = useSelector((state) => state.setOpacity.value)
 
   // Debounced editor change handler
   const handleEditorChange = useMemo(() => {
@@ -173,11 +174,11 @@ const Notes = () => {
   }), []);
 
   return (
-    <div className="w-full h-full dark:bg-dark dark:text-light">
+    <div className={`w-full h-full dark:bg-dark dark:text-light`}>
       <div className="flex z-10 justify-between items-center mb-4 fixed right-0">
         <button
           onClick={handleRephrase}
-          className=" dark:text-light text-xl w-10 h-10 rounded hover:text-light_yellow"
+          className={`dark:text-light text-xl w-10 h-10 rounded hover:text-light_yellow`}
         >
           <SiGooglegemini />
         </button>
@@ -189,7 +190,10 @@ const Notes = () => {
         onChange={handleEditorChange}
         theme="snow"
         modules={modules}
-        className="h-full dark:text-light overflow-auto"
+        className={`h-full dark:text-light overflow-auto`}
+        style={{
+          opacity: (opacity || 100) / 100, // Apply dynamic opacity
+        }}
       />
     </div>
   );

@@ -4,6 +4,7 @@ import itemsReducer from './slice/items-slice';
 import noteReducer from './slice/note-slice';
 import sideToggleReducer from './slice/sideToggle-slice';
 import sideBarActiveReducer from './slice/sideBarActive-slice'
+import opacityReducer from './slice/opacity-slice'
 
 // redux-persist imports
 import { persistStore, persistReducer } from 'redux-persist';
@@ -25,6 +26,7 @@ const store = configureStore({
     note: noteReducer,       // No persistence for note
     sideToggle: sideToggleReducer, // No persistence for sideToggle
     sideBarActive: sideBarActiveReducer,
+    setOpacity : opacityReducer,
   },
 });
 
