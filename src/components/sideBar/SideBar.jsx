@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import useMobileSize from '../../hooks/useMobileSize';
 import { toggleSideBar } from '../../redux/slice/sideToggle-slice';
+import { BsThreeDots } from "react-icons/bs";
 
 const SideBar = () => {
   const mobileSize = useMobileSize();
@@ -40,12 +41,13 @@ console.log(opacity,'hhhhh')
           >
 
             <h2
-              className="p-2 py-3 dark:text-light"
+              className="p-2 py-3 dark:text-light flex justify-between items-center"
               style={{
                 opacity: (opacity || 100) / 100, // Apply dynamic opacity
               }}
             >
               {item.content.slice(0, 20) + '...'}
+              <BsThreeDots className={`hover:dark:text-white hover:text-black ${item.id===id ? 'text-white/60':'text-white dark:text-black/60'}`} />
             </h2>
             <hr className="border-light_gray300 dark:border-dark_gray" />
           </div>
