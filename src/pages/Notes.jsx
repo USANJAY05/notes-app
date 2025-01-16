@@ -175,7 +175,7 @@ const Notes = () => {
 
   return (
     <div className={`w-full h-full dark:bg-dark dark:text-light`}>
-      <div className="flex z-10 justify-between items-center mb-4 fixed right-0">
+      <div style={{opacity:(opacity || 100)/100}} className="flex z-10 justify-between items-center mb-4 fixed right-0">
         <button
           onClick={handleRephrase}
           className={`dark:text-light text-xl w-10 h-10 rounded hover:text-light_yellow`}

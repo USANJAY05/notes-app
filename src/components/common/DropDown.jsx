@@ -7,9 +7,8 @@ const DropDown = ({ shareLink, setToggle, id }) => {
   const dispatch = useDispatch();
 
   // Get the opacity value for the specific ID from Redux state
-  const rangeValue = useSelector((state) => state.setOpacity[id]) ;
+  const opacity = useSelector((state) => state.setOpacity.value || 100)
 
-  console.log(`Current opacity value for ${id}:`, rangeValue);
 
   const commingSoon = async () => {
     alert("Comming soon ...");
@@ -24,6 +23,9 @@ const DropDown = ({ shareLink, setToggle, id }) => {
     <div
       ref={dropdownRef}
       className="absolute z-50 top-10 right-5 mt-2 w-52 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md"
+          style={{
+      opacity:(opacity || 100)/100
+    }}
     >
       <ul className="py-2">
         {/* Copy Link */}
@@ -40,10 +42,10 @@ const DropDown = ({ shareLink, setToggle, id }) => {
           <input
             id="brightness"
             type="range"
-            min={0}
+            min={20}
             max={100}
             step={5}
-            value={rangeValue}
+            value={opacity}
             onChange={(e) => handleRangeChange(parseInt(e.target.value, 10))}
             tabIndex={2}
             className="w-full"

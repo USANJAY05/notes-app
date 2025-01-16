@@ -53,7 +53,7 @@ console.log(opacity,'hhhhh')
           </div>
         ))
       ) : (
-        <h1 className="dark:text-light text-center text-opacity-[.3]">Empty list</h1>
+        <h1 className="dark:text-light text-center" style={{opacity:(opacity || 100)/100}}>Empty list</h1>
       )}
     </div>
   );
